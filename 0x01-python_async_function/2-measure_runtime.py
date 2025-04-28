@@ -1,17 +1,30 @@
 #!/usr/bin/env python3
-"""This module measures the total
-time taken by wait_n function."""
+"""
+Measure the average execution time of wait_n using n and max_delay.
+
+This module provides a function to measure how long wait_n takes to run
+and computes the average time per execution.
+"""
 
 import time
-from typing import List
+import asyncio
 wait_n = __import__('1-concurrent_coroutines').wait_n
 
 
-async def measure_time(n: int, max_delay: int) -> float:
-    """Measures the time taken by wait_n and returns
-    the average time per execution."""
-    start_time = time.time()  # Get the start time
-    await wait_n(n, max_delay)  # Run the wait_n function
-    end_time = time.time()  # Get the end time
-    total_time = end_time - start_time  # Calculate total time
-    return total_time / n  # Return the average time per execution
+def measure_time(n: int, max_delay: int) -> float:
+    """
+    Measure the total execution time for wait_n and return average time.
+
+    Args:
+        n (int): Number of times to spawn wait_n.
+        max_delay (int): Maximum delay for each coroutine.
+
+    Returns:
+        float: Average execution time per coroutine.
+    """
+    start_time = time.time()
+    asyncio.run(wait_n(n, max_delay))
+    end_time = time.time()
+
+    total_time = end_time - start_time
+    return (total_time / n)
